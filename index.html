@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zentrobyte Solutions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nosifier&family=Comic+Neue&family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #005ce6;
+      --secondary: #F0F8FF;
+      --accent: #003366;
+      --light: #B3D1FF;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Comic Neue', cursive;
+      background-color: var(--secondary);
+      color: var(--accent);
+      line-height: 1.6;
+    }
+
+    #fake-loader {
+      width: 100%;
+      height: 15px;
+      border: 2px solid var(--accent);
+      background-color: var(--light);
+    }
+    #fake-progress {
+      width: 95%;
+      height: 100%;
+      background-color: var(--primary);
+      text-align: center;
+      color: white;
+      font-size: 10px;
+    }
+
+    .blinking-text {
+      font-family: 'Nosifier', cursive;
+      font-size: 2rem;
+      text-align: center;
+      margin: 20px 0;
+      animation: blinker 1.5s linear infinite;
+    }
+    @keyframes blinker {
+      50% { opacity: 0.2; color: #007BFF; }
+    }
+
+    marquee {
+      font-family: 'Creepster', cursive;
+      font-size: 1.2rem;
+      background-color: #004C99;
+      color: white;
+      padding: 10px;
+      border: 4px dotted #FFFFFF;
+    }
+
+    #main-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+      border: 10px ridge #4D94FF;
+      background-color: white;
+      position: relative;
+    }
+
+    .newspaper-article {
+      font-family: 'Special Elite', monospace;
+      font-size: 1rem;
+      padding: 15px;
+      border: 1px solid var(--primary);
+      margin-top: 20px;
+      column-count: 3;
+      column-gap: 25px;
+      column-rule: 1px solid var(--light);
+    }
+
+    @media (max-width: 768px) {
+      .newspaper-article {
+        column-count: 1;
+      }
+    }
+
+    .hidden-def-color {
+      color: #EBF5FF;
+      font-weight: bold;
+    }
+
+    .classifieds-section {
+      margin-top: 30px;
+      border: 3px dashed black;
+      padding: 10px;
+      background-color: #fffacd;
+    }
+    .classifieds-section h3 {
+      text-align: center;
+    }
+    .classifieds-section p {
+      font-size: 0.9rem;
+      margin: 5px 0;
+    }
+
+    .icon-container {
+      position: relative;
+      height: 400px;
+      border: 5px dashed var(--accent);
+      background: url('https://media.giphy.com/media/l41lGvinEgARjB2HC/giphy.gif') no-repeat center/cover;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+
+    .icon {
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.5);
+      border: 4px solid transparent;
+      border-radius: 10px;
+      opacity: 0;
+      animation: fadeIn 1s forwards, jitter 6s ease-in-out infinite;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    @keyframes jitter {
+      0%, 100% { transform: translate(0, 0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(2px, -2px); }
+      60% { transform: translate(-1px, 1px); }
+      80% { transform: translate(1px, -1px); }
+    }
+
+    .icon:hover {
+      opacity: 0.7;
+      animation-play-state: paused;
+    }
+    .icon.selected {
+      border: 5px solid #00FF00;
+      border-radius: 50%;
+      opacity: 1;
+    }
+
+    .prank-image {
+      position: absolute;
+      z-index: 10;
+      max-width: 100%;
+    }
+
+    #ai-def-hider {
+      position: absolute;
+      top: 1100px;
+      left: 35%;
+      width: 250px;
+      border: 5px dotted hotpink;
+    }
+
+    #runaway-btn {
+      position: absolute;
+      top: 1800px;
+      left: 50%;
+      padding: 10px 20px;
+      background-color: orange;
+      border: 3px solid red;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+    }
+
+    #form-section {
+      background-color: var(--light);
+      padding: 20px;
+      border: 4px groove var(--accent);
+      margin-top: 50px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 60px;
+      font-family: 'Courier New', Courier, monospace;
+      background-color: #001f3f;
+      color: white;
+      border: 2px solid white;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+
+    #submit-btn {
+      font-size: 20px;
+      padding: 10px 20px;
+      background-color: var(--primary);
+      color: white;
+      border: 4px outset white;
+      cursor: pointer;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 4, 36, 0.8);
+    }
+    .modal-content {
+      background: linear-gradient(45deg, #001f3f, #007BFF, #F0F8FF);
+      margin: 15% auto;
+      padding: 40px;
+      border: 10px solid white;
+      width: 80%; max-width: 600px;
+      text-align: center;
+      font-size: 1.8rem;
+      color: white;
+      text-shadow: 2px 2px 4px black;
+      font-family: 'Nosifier', cursive;
+    }
+    .close-btn {
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+    }
+
+    #feedback-message {
+      font-weight: bold;
+      font-size: 1rem;
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="fake-loader"><div id="fake-progress">Loading... 95%</div></div>
+
+  <div id="main-container">
+    <h1 class="blinking-text">Zentrobyte Solutions</h1>
+    <marquee>Where Beginners Become Masters... and our website becomes a puzzle!</marquee>
+
+    <!-- Prank Images -->
+    <img src="https://media.giphy.com/media/bkGkgVEe1I2R2/giphy.gif" class="prank-image" style="top: 300px; right: 5%; width: 150px;">
+    <img src="https://media.giphy.com/media/NTur7XlVDUdqM/giphy.gif" class="prank-image" style="top: 1600px; right: 8%; width: 200px;">
+    <img src="https://media.giphy.com/media/B52m6fOob2A7K/giphy.gif" class="prank-image" style="top: 2600px; left: 10%; width: 250px;">
+    <img id="ai-def-hider" src="https://media.giphy.com/media/3o72F8t9TMe2L0IWuQ/giphy.gif" title="The science of making machines that can think like humans, capable of problem-solving and learning.">
+
+    <div class="newspaper-article">
+      <h3>The Zentrobyte Times</h3>
+      Welcome to the future of learning! At Zentrobyte Solutions, we pride ourselves on our cutting-edge (and slightly chaotic) approach to tech education. Our methods are so advanced, they often appear as random blocks of text in a three-column layout. We believe in synergy, innovation, and providing our students with enough coffee to power a small city. Our servers are cooled by the collective sighs of students debugging their code. This is a revolutionary approach that lowers our carbon footprint. We are also market leaders in Machine Learning. This is a very important field. Blah blah blah blah blah. This text is just filler. Blah blah blah blah blah. <span class="hidden-def-color">An application of AI that allows systems to automatically learn and improve from experience without being explicitly programmed.</span> Blah blah blah blah blah. More filler text here to make finding the definition much harder. Blah blah blah. Did you find it yet? Keep looking. It's definitely here somewhere. Or is it? The journey of a master begins with a single step, or in this case, a single highlight of invisible text. Good luck, you'll need it.
+    </div>
+
+    <div class="classifieds-section">
+      <h3>Zentrobyte Classifieds</h3>
+      <p><strong>FOR SALE:</strong> Slightly used keyboard. 'Ctrl' key is missing. Perfect for someone who never makes mistakes.</p>
+      <p><strong>WANTED:</strong> A new office plant. Must be able to survive on coffee, enthusiasm, and minimal sunlight.</p>
+      <p><strong>JOB POSTING:</strong> Seeking a Deep Learning expert... <br>
+      <span class="hidden-def-color">A subfield of machine learning that uses multi-layered neural networks to learn from vast amounts of data, like the human brain.</span></p>
+      <p><strong>LOST:</strong> My motivation. Last seen on Friday afternoon.</p>
+    </div>
+
+    <button id="runaway-btn">Click Me If You Can!</button>
+
+    <h2 style="margin-top: 60px;">Find the 3 Correct Icons!</h2>
+    <div class="icon-container">
+      <img class="icon" id="ai-icon" src="https://cdn-icons-png.flaticon.com/512/1693/1693746.png" style="top: 50px; left: 10%;" onclick="selectIcon(this)">
+      <img class="icon" id="ml-icon" src="https://cdn-icons-png.flaticon.com/512/4232/4232158.png" style="top: 200px; left: 70%;" onclick="selectIcon(this)">
+      <img class="icon" id="dl-icon" src="https://cdn-icons-png.flaticon.com/512/3599/3599289.png" style="top: 300px; left: 25%;" onclick="selectIcon(this)">
+      <!-- Random distractor icons -->
+      <img class="icon" src="https://cdn-icons-png.flaticon.com/512/189/189674.png" style="top: 10px; left: 50%;">
+      <img class="icon" src="https://cdn-icons-png.flaticon.com/512/889/889675.png" style="top: 150px; left: 40%;">
+      <img class="icon" src="https://cdn-icons-png.flaticon.com/512/159/159599.png" style="top: 280px; left: 85%;">
+    </div>
+
+    <div id="form-section">
+      <h2>Paste the Secret Definitions Here</h2>
+      <textarea id="ai-def-input" placeholder="AI Definition..."></textarea>
+      <textarea id="ml-def-input" placeholder="ML Definition..."></textarea>
+      <textarea id="dl-def-input" placeholder="DL Definition..."></textarea>
+      <button id="submit-btn" onclick="submitHunt()">SUBMIT INTEL</button>
+      <p id="feedback-message"></p>
+    </div>
+  </div>
+
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <p>YOU'VE WON!</p>
+      <p>NOW STAND UP AND SHOUT:</p>
+      <p>\"AI DECODED!\"</p>
+    </div>
+  </div>
+
+  <script>
+    const correctAIDef = "The science of making machines that can think like humans, capable of problem-solving and learning.";
+    const correctMLDef = "An application of AI that allows systems to automatically learn and improve from experience without being explicitly programmed.";
+    const correctDLDef = "A subfield of machine learning that uses multi-layered neural networks to learn from vast amounts of data, like the human brain.";
+
+    let selectedIconCount = 0;
+
+    function selectIcon(element) {
+      if (element.classList.contains('selected')) {
+        element.classList.remove('selected');
+        selectedIconCount--;
+      } else {
+        element.classList.add('selected');
+        selectedIconCount++;
+      }
+    }
+
+    function submitHunt() {
+      const feedback = document.getElementById('feedback-message');
+      const userAIDef = document.getElementById('ai-def-input').value.trim();
+      const userMLDef = document.getElementById('ml-def-input').value.trim();
+      const userDLDef = document.getElementById('dl-def-input').value.trim();
+
+      const areDefsCorrect = userAIDef === correctAIDef && userMLDef === correctMLDef && userDLDef === correctDLDef;
+      const areIconsCorrect = selectedIconCount === 3;
+
+      if (areDefsCorrect && areIconsCorrect) {
+        feedback.innerText = "";
+        openModal();
+      } else {
+        let msg = "KEEP HUNTING! ";
+        if (!areDefsCorrect) msg += "One or more definitions are wrong. ";
+        if (!areIconsCorrect) msg += `You selected ${selectedIconCount} icon(s), not 3.`;
+        feedback.innerText = msg;
+      }
+    }
+
+    const modal = document.getElementById('successModal');
+    function openModal() { modal.style.display = "block"; }
+    function closeModal() { modal.style.display = "none"; }
+    window.onclick = function(event) { if (event.target == modal) closeModal(); }
+
+    const runawayBtn = document.getElementById('runaway-btn');
+    runawayBtn.addEventListener('mouseover', function () {
+      this.style.top = (Math.random() * 80 + 10) + '%';
+      this.style.left = (Math.random() * 80 + 10) + '%';
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const icons = document.querySelectorAll('.icon');
+      icons.forEach(icon => {
+        const delay = Math.random() * 2.5;
+        icon.style.animationDelay = delay + 's';
+      });
+    });
+  </script>
+</body>
+</html>
