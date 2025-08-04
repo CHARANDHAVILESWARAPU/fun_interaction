@@ -43,7 +43,7 @@
 
     .blinking-text {
       font-family: 'Nosifier', cursive;
-      font-size: 2rem;
+      font-size: 2.5rem;
       text-align: center;
       margin: 20px 0;
       animation: blinker 1.5s linear infinite;
@@ -70,12 +70,24 @@
       position: relative;
     }
 
+    .card {
+      background-color: #f9f9f9;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      margin: 20px 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    }
+
     .newspaper-article {
       font-family: 'Special Elite', monospace;
       font-size: 1rem;
       padding: 15px;
       border: 1px solid var(--primary);
-      margin-top: 20px;
       column-count: 3;
       column-gap: 25px;
       column-rule: 1px solid var(--light);
@@ -87,39 +99,57 @@
       }
     }
 
-    .hidden-def-color {
-      color: #EBF5FF;
-      font-weight: bold;
+    .hidden-def {
+      color: transparent;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
+    .hidden-def:hover {
+      color: var(--primary);
+      cursor: pointer;
+    }
+    .hidden-def.selected {
+      color: var(--primary);
+      user-select: auto;
     }
 
     .classifieds-section {
       margin-top: 30px;
       border: 3px dashed black;
-      padding: 10px;
+      padding: 20px;
       background-color: #fffacd;
+      border-radius: 10px;
     }
     .classifieds-section h3 {
       text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
     }
     .classifieds-section p {
       font-size: 0.9rem;
-      margin: 5px 0;
+      margin: 8px 0;
+      transition: transform 0.2s ease;
+    }
+    .classifieds-section p:hover {
+      transform: scale(1.05);
     }
 
     .icon-container {
-      position: relative;
-      height: 400px;
+      display: grid;
+      grid-template-columns: repeat(32, 50px);
+      gap: 5px;
+      height: auto;
       border: 5px dashed var(--accent);
-      background: url('https://media.giphy.com/media/l41lGvinEgARjB2HC/giphy.gif') no-repeat center/cover;
+      background-color: #e6f0ff;
       margin-top: 20px;
-      overflow: hidden;
+      padding: 10px;
+      border-radius: 15px;
     }
 
     .icon {
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
       cursor: pointer;
-      position: absolute;
       background-color: rgba(255, 255, 255, 0.5);
       border: 4px solid transparent;
       border-radius: 10px;
@@ -140,17 +170,23 @@
     .icon:hover {
       opacity: 0.7;
       animation-play-state: paused;
+      transform: scale(1.2);
     }
     .icon.selected {
       border: 5px solid #00FF00;
       border-radius: 50%;
       opacity: 1;
+      transform: scale(1.2);
     }
 
     .prank-image {
       position: absolute;
       z-index: 10;
       max-width: 100%;
+      transition: transform 0.3s ease;
+    }
+    .prank-image:hover {
+      transform: rotate(10deg);
     }
 
     #ai-def-hider {
@@ -165,12 +201,33 @@
       position: absolute;
       top: 1800px;
       left: 50%;
-      padding: 10px 20px;
+      padding: 25px 50px;
       background-color: orange;
-      border: 3px solid red;
+      border: 6px solid red;
       cursor: pointer;
-      transition: all 0.3s ease;
       font-weight: bold;
+      border-radius: 15px;
+      font-size: 1.8rem;
+      font-family: 'Creepster', cursive;
+      color: white;
+      text-shadow: 2px 2px 3px black;
+      animation: pulse 1s ease-in-out infinite;
+      transition: all 0.6s ease;
+      z-index: 20;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    #runaway-btn:hover {
+      transform: scale(1.4);
+      background-color: #ff8c00;
+      box-shadow: 0 0 30px rgba(255, 140, 0, 0.8);
+    }
+    #runaway-btn.stopped {
+      transform: scale(1.3);
+      transition: transform 0.3s ease;
     }
 
     #form-section {
@@ -178,6 +235,7 @@
       padding: 20px;
       border: 4px groove var(--accent);
       margin-top: 50px;
+      border-radius: 15px;
     }
 
     textarea {
@@ -189,15 +247,27 @@
       border: 2px solid white;
       margin-bottom: 10px;
       padding: 10px;
+      border-radius: 5px;
+      transition: transform 0.2s ease;
+    }
+    textarea:focus {
+      transform: scale(1.02);
+      border-color: var(--primary);
     }
 
     #submit-btn {
       font-size: 20px;
-      padding: 10px 20px;
+      padding: 12px 24px;
       background-color: var(--primary);
       color: white;
       border: 4px outset white;
       cursor: pointer;
+      border-radius: 8px;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+    #submit-btn:hover {
+      transform: scale(1.1);
+      background-color: #0047b3;
     }
 
     .modal {
@@ -219,6 +289,12 @@
       color: white;
       text-shadow: 2px 2px 4px black;
       font-family: 'Nosifier', cursive;
+      border-radius: 15px;
+      animation: popIn 0.5s ease;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
     .close-btn {
       float: right;
@@ -226,6 +302,10 @@
       font-weight: bold;
       cursor: pointer;
       color: white;
+      transition: color 0.2s ease;
+    }
+    .close-btn:hover {
+      color: #ff4d4d;
     }
 
     #feedback-message {
@@ -233,6 +313,14 @@
       font-size: 1rem;
       color: red;
       margin-top: 10px;
+      transition: opacity 0.3s ease;
+    }
+
+    .locked-message {
+      text-align: center;
+      font-size: 1.5rem;
+      color: red;
+      margin: 20px 0;
     }
   </style>
 </head>
@@ -240,7 +328,7 @@
 
   <div id="fake-loader"><div id="fake-progress">Loading... 95%</div></div>
 
-  <div id="main-container">
+  <div id="main-container" class="card">
     <h1 class="blinking-text">Zentrobyte Solutions</h1>
     <marquee>Where Beginners Become Masters... and our website becomes a puzzle!</marquee>
 
@@ -250,34 +338,29 @@
     <img src="https://media.giphy.com/media/B52m6fOob2A7K/giphy.gif" class="prank-image" style="top: 2600px; left: 10%; width: 250px;">
     <img id="ai-def-hider" src="https://media.giphy.com/media/3o72F8t9TMe2L0IWuQ/giphy.gif" title="The science of making machines that can think like humans, capable of problem-solving and learning.">
 
-    <div class="newspaper-article">
+    <div class="newspaper-article card">
       <h3>The Zentrobyte Times</h3>
-      Welcome to the future of learning! At Zentrobyte Solutions, we pride ourselves on our cutting-edge (and slightly chaotic) approach to tech education. Our methods are so advanced, they often appear as random blocks of text in a three-column layout. We believe in synergy, innovation, and providing our students with enough coffee to power a small city. Our servers are cooled by the collective sighs of students debugging their code. This is a revolutionary approach that lowers our carbon footprint. We are also market leaders in Machine Learning. This is a very important field. Blah blah blah blah blah. This text is just filler. Blah blah blah blah blah. <span class="hidden-def-color">An application of AI that allows systems to automatically learn and improve from experience without being explicitly programmed.</span> Blah blah blah blah blah. More filler text here to make finding the definition much harder. Blah blah blah. Did you find it yet? Keep looking. It's definitely here somewhere. Or is it? The journey of a master begins with a single step, or in this case, a single highlight of invisible text. Good luck, you'll need it.
+      Welcome to the future of learning! At Zentrobyte Solutions, we pride ourselves on our cutting-edge (and slightly chaotic) approach to tech education. Our methods are so advanced, they often appear as random blocks of text in a three-column layout. We believe in synergy, innovation, and providing our students with enough coffee to power a small city. Our servers are cooled by the collective sighs of students debugging their code. This is a revolutionary approach that lowers our carbon footprint. We are also market leaders in Machine Learning. This is a very important field. Blah blah blah blah blah. This text is just filler. Blah blah blah blah blah. <span class="hidden-def" onclick="selectText(this)">The science of making machines that can think like humans, capable of problem-solving and learning.</span> Blah blah blah blah blah. More filler text here to make finding the definition much harder. Blah blah blah. Did you find it yet? Keep looking. It's definitely here somewhere. Or is it? The journey of a master begins with a single step, or in this case, a single highlight of invisible text. Good luck, you'll need it.
     </div>
 
-    <div class="classifieds-section">
+    <div class="classifieds-section card">
       <h3>Zentrobyte Classifieds</h3>
       <p><strong>FOR SALE:</strong> Slightly used keyboard. 'Ctrl' key is missing. Perfect for someone who never makes mistakes.</p>
       <p><strong>WANTED:</strong> A new office plant. Must be able to survive on coffee, enthusiasm, and minimal sunlight.</p>
       <p><strong>JOB POSTING:</strong> Seeking a Deep Learning expert... <br>
-      <span class="hidden-def-color">A subfield of machine learning that uses multi-layered neural networks to learn from vast amounts of data, like the human brain.</span></p>
+      <span class="hidden-def" onclick="selectText(this)">A subfield of machine learning that uses multi-layered neural networks to learn from vast amounts of data, like the human brain.</span></p>
       <p><strong>LOST:</strong> My motivation. Last seen on Friday afternoon.</p>
+      <p><strong>JOB POSTING:</strong> Seeking a Machine Learning expert... <br>
+      <span class="hidden-def" onclick="selectText(this)">An application of AI that allows systems to automatically learn and improve from experience without being explicitly programmed.</span></p>
     </div>
 
     <button id="runaway-btn">Click Me For Hint!</button>
 
     <h2 style="margin-top: 60px;">Find the 3 Correct Icons!</h2>
-    <div class="icon-container">
-      <img class="icon" id="ai-icon" src="https://cdn-icons-png.flaticon.com/512/1693/1693746.png" style="top: 50px; left: 10%;" onclick="selectIcon(this)">
-      <img class="icon" id="ml-icon" src="https://cdn-icons-png.flaticon.com/512/4232/4232158.png" style="top: 200px; left: 70%;" onclick="selectIcon(this)">
-      <img class="icon" id="dl-icon" src="https://cdn-icons-png.flaticon.com/512/3599/3599289.png" style="top: 300px; left: 25%;" onclick="selectIcon(this)">
-      <!-- Random distractor icons -->
-      <img class="icon" src="https://cdn-icons-png.flaticon.com/512/189/189674.png" style="top: 10px; left: 50%;">
-      <img class="icon" src="https://cdn-icons-png.flaticon.com/512/889/889675.png" style="top: 150px; left: 40%;">
-      <img class="icon" src="https://cdn-icons-png.flaticon.com/512/159/159599.png" style="top: 280px; left: 85%;">
+    <div id="icon-container" class="icon-container card">
     </div>
 
-    <div id="form-section">
+    <div id="form-section" class="card">
       <h2>Paste the Secret Definitions Here</h2>
       <textarea id="ai-def-input" placeholder="AI Definition..."></textarea>
       <textarea id="ml-def-input" placeholder="ML Definition..."></textarea>
@@ -292,7 +375,14 @@
       <span class="close-btn" onclick="closeModal()">&times;</span>
       <p>YOU'VE WON!</p>
       <p>NOW STAND UP AND SHOUT:</p>
-      <p>\"AI DECODED!\"</p>
+      <p>"AI DECODED!"</p>
+    </div>
+  </div>
+
+  <div id="failureModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeFailureModal()">&times;</span>
+      <p>This content is not available</p>
     </div>
   </div>
 
@@ -302,25 +392,157 @@
     const correctDLDef = "A subfield of machine learning that uses multi-layered neural networks to learn from vast amounts of data, like the human brain.";
 
     let selectedIconCount = 0;
+    let clickAttempts = 0;
+    const maxAttempts = 3;
+    let runawayClickCount = 0;
+    let hoverCount = 0;
+
+    const distractorIcons = [
+      "https://cdn-icons-png.flaticon.com/512/189/189674.png",
+      "https://cdn-icons-png.flaticon.com/512/889/889675.png",
+      "https://cdn-icons-png.flaticon.com/512/159/159599.png",
+      "https://cdn-icons-png.flaticon.com/512/4290/4290854.png",
+      "https://cdn-icons-png.flaticon.com/512/3161/3161354.png",
+      "https://cdn-icons-png.flaticon.com/512/2838/2838912.png",
+      "https://cdn-icons-png.flaticon.com/512/1087/1087815.png",
+      "https://cdn-icons-png.flaticon.com/512/1055/1055672.png",
+      "https://cdn-icons-png.flaticon.com/512/3075/3075977.png",
+      "https://cdn-icons-png.flaticon.com/512/3048/3048122.png",
+      "https://cdn-icons-png.flaticon.com/512/1261/1261126.png",
+      "https://cdn-icons-png.flaticon.com/512/1085/1085848.png",
+      "https://cdn-icons-png.flaticon.com/512/2948/2948177.png",
+      "https://cdn-icons-png.flaticon.com/512/2920/2920340.png",
+      "https://cdn-icons-png.flaticon.com/512/2814/2814262.png",
+      "https://cdn-icons-png.flaticon.com/512/3076/3076288.png",
+      "https://cdn-icons-png.flaticon.com/512/1086/1086362.png",
+      "https://cdn-icons-png.flaticon.com/512/2991/2991148.png",
+      "https://cdn-icons-png.flaticon.com/512/1087/1087856.png",
+      "https://cdn-icons-png.flaticon.com/512/2814/2814299.png",
+      "https://cdn-icons-png.flaticon.com/512/1085/1085819.png",
+      "https://cdn-icons-png.flaticon.com/512/2997/2997933.png",
+      "https://cdn-icons-png.flaticon.com/512/1265/1265866.png",
+      "https://cdn-icons-png.flaticon.com/512/3076/3076270.png",
+      "https://cdn-icons-png.flaticon.com/512/1086/1086372.png",
+      "https://cdn-icons-png.flaticon.com/512/2814/2814269.png",
+      "https://cdn-icons-png.flaticon.com/512/2991/2991174.png",
+      "https://cdn-icons-png.flaticon.com/512/1085/10858218.png",
+      "https://cdn-icons-png.flaticon.com/512/3075/3075970.png",
+      "https://cdn-icons-png.flaticon.com/512/2948/2948182.png",
+      "https://cdn-icons-png.flaticon.com/512/1087/1087844.png",
+      "https://cdn-icons-png.flaticon.com/512/2997/2997927.png",
+      "https://cdn-icons-png.flaticon.com/512/1261/1261123.png",
+      "https://cdn-icons-png.flaticon.com/512/1086/1086367.png",
+      "https://cdn-icons-png.flaticon.com/512/2814/2814275.png",
+      "https://cdn-icons-png.flaticon.com/512/2991/2991155.png",
+      "https://cdn-icons-png.flaticon.com/512/3076/3076283.png",
+      "https://cdn-icons-png.flaticon.com/512/1085/1085824.png",
+      "https://cdn-icons-png.flaticon.com/512/2948/2948172.png",
+      "https://cdn-icons-png.flaticon.com/512/1087/1087833.png",
+      "https://cdn-icons-png.flaticon.com/512/2997/2997937.png",
+      "https://cdn-icons-png.flaticon.com/512/1265/1265872.png",
+      "https://cdn-icons-png.flaticon.com/512/3076/3076275.png",
+      "https://cdn-icons-png.flaticon.com/512/1086/1086377.png",
+      "https://cdn-icons-png.flaticon.com/512/2814/2814285.png",
+      "https://cdn-icons-png.flaticon.com/512/2991/2991168.png",
+      "https://cdn-icons-png.flaticon.com/512/1085/1085830.png",
+      "https://cdn-icons-png.flaticon.com/512/2948/2948187.png",
+      "https://cdn-icons-png.flaticon.com/512/1087/1087849.png",
+      "https://cdn-icons-png.flaticon.com/512/2991/2991178.png",
+      "https://cdn-icons-png.flaticon.com/512/1085/1085835.png"
+    ];
+
+    function populateIcons() {
+      const iconContainer = document.getElementById('icon-container');
+      iconContainer.innerHTML = '';
+      const icons = [
+        { id: 'ai-icon', src: 'https://cdn-icons-png.flaticon.com/512/1693/1693746.png' },
+        { id: 'ml-icon', src: 'https://cdn-icons-png.flaticon.com/512/4232/4232158.png' },
+        { id: 'dl-icon', src: 'https://cdn-icons-png.flaticon.com/512/3599/3599289.png' }
+      ];
+      for (let i = 0; i < 1000; i++) {
+        icons.push({ id: `distractor-${i}`, src: distractorIcons[i % distractorIcons.length] });
+      }
+      icons.forEach(icon => {
+        iconContainer.insertAdjacentHTML('beforeend', `<img class="icon" id="${icon.id}" src="${icon.src}" onclick="selectIcon(this)">`);
+      });
+    }
 
     function selectIcon(element) {
+      if (localStorage.getItem('gameLocked') === 'true') return;
+
       if (element.classList.contains('selected')) {
         element.classList.remove('selected');
         selectedIconCount--;
       } else {
-        element.classList.add('selected');
-        selectedIconCount++;
+        if (selectedIconCount < 3) {
+          element.classList.add('selected');
+          selectedIconCount++;
+        }
+      }
+
+      if (selectedIconCount === 3) {
+        const correctIcons = ['ai-icon', 'ml-icon', 'dl-icon'].every(id => 
+          document.getElementById(id).classList.contains('selected')
+        );
+        if (!correctIcons) {
+          clickAttempts++;
+          if (clickAttempts < maxAttempts) {
+            setTimeout(() => {
+              document.querySelectorAll('.icon').forEach(icon => {
+                icon.classList.remove('selected');
+              });
+              selectedIconCount = 0;
+              document.getElementById('feedback-message').innerText = `Wrong selection! ${maxAttempts - clickAttempts} attempt(s) left.`;
+            }, 500);
+          } else {
+            localStorage.setItem('gameLocked', 'true');
+            openFailureModal();
+            document.getElementById('icon-container').innerHTML = '<p class="locked-message">This content is not available</p>';
+            document.getElementById('submit-btn').disabled = true;
+            document.getElementById('feedback-message').innerText = "Game is locked! You cannot play again.";
+          }
+        }
+      }
+    }
+
+    function selectText(element) {
+      if (localStorage.getItem('gameLocked') === 'true') return;
+
+      element.classList.toggle('selected');
+      if (element.classList.contains('selected')) {
+        const range = document.createRange();
+        range.selectNodeContents(element);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
       }
     }
 
     function submitHunt() {
+      if (localStorage.getItem('gameLocked') === 'true') {
+        document.getElementById('feedback-message').innerText = "Game is locked! You cannot play again.";
+        return;
+      }
+
+      if (clickAttempts >= maxAttempts && selectedIconCount !== 3) {
+        localStorage.setItem('gameLocked', 'true');
+        openFailureModal();
+        document.getElementById('icon-container').innerHTML = '<p class="locked-message">This content is not available</p>';
+        document.getElementById('submit-btn').disabled = true;
+        document.getElementById('feedback-message').innerText = "Game is locked! You cannot play again.";
+        return;
+      }
+
       const feedback = document.getElementById('feedback-message');
       const userAIDef = document.getElementById('ai-def-input').value.trim();
       const userMLDef = document.getElementById('ml-def-input').value.trim();
       const userDLDef = document.getElementById('dl-def-input').value.trim();
 
       const areDefsCorrect = userAIDef === correctAIDef && userMLDef === correctMLDef && userDLDef === correctDLDef;
-      const areIconsCorrect = selectedIconCount === 3;
+      const areIconsCorrect = selectedIconCount === 3 && 
+        ['ai-icon', 'ml-icon', 'dl-icon'].every(id => 
+          document.getElementById(id).classList.contains('selected')
+        );
 
       if (areDefsCorrect && areIconsCorrect) {
         feedback.innerText = "";
@@ -329,29 +551,92 @@
         let msg = "KEEP HUNTING! ";
         if (!areDefsCorrect) msg += "One or more definitions are wrong. ";
         if (!areIconsCorrect) msg += `You selected ${selectedIconCount} icon(s), not 3.`;
+        if (clickAttempts >= maxAttempts) {
+          msg = "This content is not available";
+          localStorage.setItem('gameLocked', 'true');
+          document.getElementById('icon-container').innerHTML = '<p class="locked-message">This content is not available</p>';
+          document.getElementById('submit-btn').disabled = true;
+        }
         feedback.innerText = msg;
       }
     }
 
-    const modal = document.getElementById('successModal');
-    function openModal() { modal.style.display = "block"; }
-    function closeModal() { modal.style.display = "none"; }
-    window.onclick = function(event) { if (event.target == modal) closeModal(); }
+    const successModal = document.getElementById('successModal');
+    const failureModal = document.getElementById('failureModal');
+    function openModal() { successModal.style.display = "block"; }
+    function closeModal() { successModal.style.display = "none"; }
+    function openFailureModal() { failureModal.style.display = "block"; }
+    function closeFailureModal() { failureModal.style.display = "none"; }
+    window.onclick = function(event) {
+      if (event.target == successModal) closeModal();
+      if (event.target == failureModal) closeFailureModal();
+    }
 
-    const runawayBtn = document.getElementById('runaway-btn');
-    runawayBtn.addEventListener('mouseover', function () {
-      this.style.top = (Math.random() * 80 + 10) + '%';
-      this.style.left = (Math.random() * 80 + 10) + '%';
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
+    function resetGame() {
+      localStorage.removeItem('gameLocked');
+      clickAttempts = 0;
+      selectedIconCount = 0;
+      runawayClickCount = 0;
+      hoverCount = 0;
+      document.querySelectorAll('.icon').forEach(icon => {
+        icon.classList.remove('selected');
+      });
+      document.getElementById('feedback-message').innerText = "";
+      document.getElementById('submit-btn').disabled = false;
+      closeFailureModal();
+      closeModal();
+      populateIcons();
       const icons = document.querySelectorAll('.icon');
       icons.forEach(icon => {
         const delay = Math.random() * 2.5;
         icon.style.animationDelay = delay + 's';
       });
+      const runawayBtn = document.getElementById('runaway-btn');
+      runawayBtn.classList.remove('stopped');
+      runawayBtn.style.top = '1800px';
+      runawayBtn.style.left = '50%';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      populateIcons();
+      const icons = document.querySelectorAll('.icon');
+      icons.forEach(icon => {
+        const delay = Math.random() * 2.5;
+        icon.style.animationDelay = delay + 's';
+      });
+
+      if (localStorage.getItem('gameLocked') === 'true') {
+        document.getElementById('icon-container').innerHTML = '<p class="locked-message">This content is not available</p>';
+        document.getElementById('submit-btn').disabled = true;
+        document.getElementById('feedback-message').innerText = "Game is locked! You cannot play again.";
+      }
+
+      const runawayBtn = document.getElementById('runaway-btn');
+      runawayBtn.addEventListener('click', function () {
+        runawayClickCount++;
+        if (runawayClickCount >= 15) {
+          resetGame();
+        }
+      });
+
+      runawayBtn.addEventListener('mouseover', function () {
+        if (localStorage.getItem('gameLocked') === 'true' || hoverCount >= 10) {
+          this.classList.add('stopped');
+          this.style.top = '1800px';
+          this.style.left = '50%';
+          return;
+        }
+        hoverCount++;
+        if (hoverCount < 10) {
+          this.style.top = (Math.random() * 80 + 10) + '%';
+          this.style.left = (Math.random() * 80 + 10) + '%';
+        } else {
+          this.classList.add('stopped');
+          this.style.top = '1800px';
+          this.style.left = '50%';
+        }
+      });
     });
   </script>
 </body>
 </html>
-
